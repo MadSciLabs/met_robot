@@ -23,19 +23,12 @@ void setup() {
   size(400,400);
   frameRate(25);
   
-  /* create a new instance of oscP5. 
-   * 12000 is the port number you are listening for incoming osc messages.
-   */
   oscP5 = new OscP5(this,6004);
-  
-  /* create a new NetAddress. a NetAddress is used when sending osc messages
-   * with the oscP5.send method.
-   */
   
   /* the address of the osc broadcast server */
   myBroadcastLocation = new NetAddress("10.100.35.205",6004);
   
-  //Load Square
+  //Load Square coordinates
   arrSquare[0] = new DI(TYPE_MOVE_TO,0,0);
   arrSquare[1] = new DI(TYPE_MOVE_TO,.1,.1);
   arrSquare[2] = new DI(TYPE_DRAW_TO,.8,.1);
@@ -43,7 +36,6 @@ void setup() {
   arrSquare[4] = new DI(TYPE_DRAW_TO,.1,.8);
   arrSquare[5] = new DI(TYPE_DRAW_TO,.1,.1);
   arrSquare[6] = new DI(TYPE_MOVE_TO,0,0);
-  //Draw It
 
 }
 
@@ -56,11 +48,13 @@ void draw() {
 void drawSquare() {
   
    OscMessage m;
-  
+ 
+   println("Draw square");
+
    m = new OscMessage("/coords");
    int _lastPenPosition = TYPE_MOVE_TO;
  
-   for (int i=0; i<7; i++)
+   for (int i=0; i<arrSquare.length; i++)
    {
         //If we are switching from moving to drawing, or vs versa, move pen first
         if (arrSquare[i].type != _lastPenPosition && i>0) {
